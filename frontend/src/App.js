@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+import Landing from "./pages/Landing";
 import Home from "./pages/Home";
+import Signup from "./pages/Signup";
 import RoleSelection from "./pages/RoleSelection";
 import Interview from "./pages/Interview";
 import Results from "./pages/Results";
@@ -37,55 +39,54 @@ export default function App() {
   }
 
   return (
-    <div className="container">
-      <div className="card">
-        {/* Simple header */}
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-          <div>
-            <h1 style={{ marginBottom: 4 }}>Mentoria</h1>
-            <p style={{ margin: 0, color: "var(--muted)" }}>
-              AI Interview Trainer
-            </p>
-          </div>
-          <div style={{ textAlign: "right", fontSize: 14 }}>
-            {user ? (
-              <>
-                <div>Hi, {user.name || user.email}</div>
-                <div style={{ color: "var(--muted)" }}>
-                  {roleInfo ? `Role: ${roleInfo.role}` : "No role selected"}
-                </div>
-              </>
-            ) : (
-              <div style={{ color: "var(--muted)" }}>Not logged in</div>
-            )}
-          </div>
-        </div>
+    <Routes>
+      {/* Landing / Logo page (full-width, no card) */}
+      <Route path="/" element={<Landing />} />
 
-        <Routes>
-          <Route path="/" element={<Home onLogin={handleLogin} />} />
-          <Route
-            path="/role"
-            element={<RoleSelection onNext={handleRoleSelected} />}
-          />
-          <Route
-            path="/interview"
-            element={
-              <Interview
-                roleInfo={roleInfo}
-                onComplete={handleInterviewComplete}
-              />
-            }
-          />
-          <Route
-            path="/results"
-            element={<Results result={lastResult} />}
-          />
-          <Route
-            path="/dashboard"
-            element={<Dashboard progress={progress} />}
-          />
-        </Routes>
-      </div>
-    </div>
+      {/* All other pages inside the card */}
+      <Route
+        path="*"
+        element={
+          <div className="container">
+            <div className="card">
+              {/* Simple header */}
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+                <div>
+                  <h1 style={{ marginBottom: 4 }}>Mentoria</h1>
+                  <p style={{ margin: 0, color: "var(--muted)" }}>AI Interview Trainer</p>
+                </div>
+                <div style={{ textAlign: "right", fontSize: 14 }}>
+                  {user ? (
+                    <>
+                      <div>Hi, {user.name || user.email}</div>
+                      <div style={{ color: "var(--muted)" }}>
+                        {roleInfo ? `Role: ${roleInfo.role}` : "No role selected"}
+                      </div>
+                    </>
+                  ) : (
+                    <div style={{ color: "var(--muted)" }}>Not logged in</div>
+                  )}
+                </div>
+              </div>
+
+              <Routes>
+                {/* Auth */}
+                <Route path="/login" element={<Home onLogin={handleLogin} />} />
+                <Route path="/signup" element={<Signup />} />
+
+                {/* Main flow */}
+                <Route path="/role" element={<RoleSelection onNext={handleRoleSelected} />} />
+                <Route
+                  path="/interview"
+                  element={<Interview roleInfo={roleInfo} onComplete={handleInterviewComplete} />}
+                />
+                <Route path="/results" element={<Results result={lastResult} />} />
+                <Route path="/dashboard" element={<Dashboard progress={progress} />} />
+              </Routes>
+            </div>
+          </div>
+        }
+      />
+    </Routes>
   );
 }

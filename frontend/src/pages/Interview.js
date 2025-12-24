@@ -5,6 +5,7 @@ import {
   submitTextAnswer,
   submitAudioAnswer,
 } from "../api";
+import "./Interview.css"; // make sure to import the CSS
 
 export default function Interview({ roleInfo, onComplete }) {
   const [status, setStatus] = useState("checking backend...");
@@ -14,8 +15,7 @@ export default function Interview({ roleInfo, onComplete }) {
   const [answerText, setAnswerText] = useState("");
   const [transcript, setTranscript] = useState("");
   const [score, setScore] = useState(null);
-  const [message, setMessage] = useState("");
-
+  const [message, setMessage] = useState(""); 
   const [mediaStream, setMediaStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState(null);
@@ -35,9 +35,7 @@ export default function Interview({ roleInfo, onComplete }) {
         setInterviewId(res.interview_id || "local-test");
         setQuestion(res.first_question || "Tell me about yourself.");
       })
-      .catch(() => {
-        setQuestion("Tell me about yourself.");
-      });
+      .catch(() => setQuestion("Tell me about yourself."));
   }, [roleInfo]);
 
   async function sendText() {
@@ -60,14 +58,9 @@ export default function Interview({ roleInfo, onComplete }) {
       throw new Error("Media devices API not supported.");
     }
     if (mediaStream) return mediaStream;
-    const s = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    });
+    const s = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
     setMediaStream(s);
-    if (videoRef.current) {
-      videoRef.current.srcObject = s;
-    }
+    if (videoRef.current) videoRef.current.srcObject = s;
     return s;
   }
 
@@ -97,8 +90,8 @@ export default function Interview({ roleInfo, onComplete }) {
           if (canvasRef.current && videoRef.current) {
             const videoEl = videoRef.current;
             const canvas = canvasRef.current;
-            const w = videoEl.videoWidth || 320;
-            const h = videoEl.videoHeight || 240;
+            const w = videoEl.videoWidth || 640;
+            const h = videoEl.videoHeight || 360;
             canvas.width = w;
             canvas.height = h;
             const ctx = canvas.getContext("2d");
@@ -109,11 +102,7 @@ export default function Interview({ roleInfo, onComplete }) {
           }
 
           setMessage("Uploading recording...");
-          const res = await submitAudioAnswer(
-            interviewId || "local-test",
-            audioBlob,
-            snapshotBlob
-          );
+          const res = await submitAudioAnswer(interviewId || "local-test", audioBlob, snapshotBlob);
           setTranscript(res.transcript || "No transcript");
           setScore(res.score ?? 0);
           setQuestion(res.next_question || "");
@@ -173,103 +162,63 @@ export default function Interview({ roleInfo, onComplete }) {
 
   function handleSubmitAndFinish() {
     const fb = buildFeedback(score, transcript);
-    onComplete({
-      score: score ?? 0,
-      transcript,
-      ...fb,
-    });
+    onComplete({ score: score ?? 0, transcript, ...fb });
   }
 
   return (
-    <div>
-      <h2>Interview</h2>
-      <p style={{ color: "var(--muted)", marginBottom: 8 }}>
-        Backend: {status} | Role: {roleInfo?.role || "general"}
-      </p>
+    <div className="interview-wrapper">
+      <div className="interview-card">
+        <h2 className="interview-title">Interview</h2>
+        <p className="interview-subtitle">
+          Backend: {status} | Role: {roleInfo?.role || "general"}
+        </p>
 
-      <h3>Question</h3>
-      <div
-        style={{
-          padding: 12,
-          background: "#f3f4f6",
-          borderRadius: 8,
-          marginBottom: 16,
-        }}
-      >
-        {question}
-      </div>
+        <div className="question-box">{question}</div>
 
-      <h3>Answer (text)</h3>
-      <textarea
-        value={answerText}
-        onChange={(e) => setAnswerText(e.target.value)}
-        placeholder="Type your answer here..."
-      />
-      <div style={{ marginTop: 8, marginBottom: 16 }}>
-        <button className="button ghost" onClick={sendText}>
-          Submit Text Answer
-        </button>
-      </div>
-
-      <h3>Answer (audio + video)</h3>
-      <div style={{ display: "flex", gap: 16 }}>
-        <div>
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            style={{ width: 260, height: 190, background: "#000" }}
-          />
+        <div className="video-container">
+          <video ref={videoRef} autoPlay muted playsInline />
           <canvas ref={canvasRef} style={{ display: "none" }} />
-        </div>
-        <div style={{ flex: 1 }}>
-          <p style={{ color: "var(--muted)" }}>
-            Use your webcam and mic to record your answer. A snapshot will be
-            taken at the end for facial analysis (server-side).
-          </p>
-          {!isRecording ? (
-            <div style={{ display: "flex", gap: 8 }}>
-              <button className="button primary" onClick={startRecording}>
-                Start Recording
-              </button>
-              <button
-                className="button"
-                onClick={() => initMedia().catch((e) => setError(e.message))}
-              >
-                Init Camera
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button className="button" onClick={stopRecording}>
+          <div className="button-row">
+            {!isRecording ? (
+              <>
+                <button className="button primary" onClick={startRecording}>
+                  Start Recording
+                </button>
+                <button
+                  className="button"
+                  onClick={() => initMedia().catch((e) => setError(e.message))}
+                >
+                  Init Camera
+                </button>
+              </>
+            ) : (
+              <button className="button primary" onClick={stopRecording}>
                 Stop Recording
               </button>
-              <span style={{ marginLeft: 8, color: "var(--muted)" }}>
-                Recording...
-              </span>
-            </div>
-          )}
-          {error && <p style={{ color: "red" }}>Error: {error}</p>}
+            )}
+          </div>
+          {error && <p className="error-text">{error}</p>}
+          {message && <p className="info-text">{message}</p>}
         </div>
-      </div>
 
-      <h3 style={{ marginTop: 20 }}>Live Result (from last answer)</h3>
-      <p>
-        <strong>Score:</strong> {score ?? "-"}
-      </p>
-      <p>
-        <strong>Transcript:</strong> {transcript || "-"}
-      </p>
-
-      <div style={{ marginTop: 16 }}>
-        <button
-          className="button primary"
-          onClick={handleSubmitAndFinish}
-          disabled={score === null && !transcript}
-        >
-          Submit &amp; View Results
-        </button>
+        <h3>Optional Text Answer</h3>
+        <textarea
+          value={answerText}
+          onChange={(e) => setAnswerText(e.target.value)}
+          placeholder="Type your answer here..."
+        />
+        <div className="button-row">
+          <button className="button ghost" onClick={sendText}>
+            Submit Text Answer
+          </button>
+          <button
+            className="button primary"
+            onClick={handleSubmitAndFinish}
+            disabled={score === null && !transcript}
+          >
+            Submit & View Results
+          </button>
+        </div>
       </div>
     </div>
   );
