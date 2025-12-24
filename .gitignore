@@ -16,3 +16,7 @@ node_modules/
 backend/uploads/*.wav
 backend/uploads/*.mp3
 backend/uploads/*.pdf
+
+# Node
+node_modules/
+frontend/node_modules/
