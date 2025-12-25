@@ -34,3 +34,24 @@
 .navbar a:hover {
   color: #2563eb;
 }
+
+/* ===== ADD BELOW EXISTING CSS ===== */
+
+/* Logo container when using image + text */
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logo image */
+.navbar .logo img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Optional: smoother hover */
+.navbar a {
+  transition: color 0.2s ease;
+}
