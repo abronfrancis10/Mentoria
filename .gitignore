@@ -1,0 +1,22 @@
+# Python virtual environments
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Environment files
+.env
+
+# Upload artifacts
+backend/uploads/*.wav
+backend/uploads/*.mp3
+backend/uploads/*.pdf
+
+# Node
+node_modules/
+frontend/node_modules/
