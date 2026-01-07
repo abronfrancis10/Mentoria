@@ -1,0 +1,125 @@
+/* ===== PAGE WRAPPER ===== */
+.auth-wrapper {
+  min-height: calc(100vh - 70px); /* navbar height */
+  padding-top: 70px;              /* pushes below navbar */
+  padding-bottom: 40px;           /* footer safety */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff, #f0fdf4);
+}
+
+/* ===== CARD ===== */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADINGS ===== */
+.auth-card h2 {
+  margin-bottom: 6px;
+  color: #1f2937;
+  font-size: 22px;
+}
+
+.auth-caption {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* ===== FORM ===== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  background: #fff;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ===== PASSWORD FIELD ===== */
+.password-wrapper {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.password-wrapper input {
+  padding-right: 44px;
+}
+
+/* Pencil / Eye toggle */
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password:hover {
+  color: #2563eb;
+}
+
+/* ===== BUTTONS ===== */
+.button.primary {
+  margin-top: 6px;
+}
+
+.button.google {
+  margin-top: 14px;
+}
+
+/* ===== ERROR ===== */
+.auth-error {
+  margin-top: 10px;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+/* ===== SWITCH LINK ===== */
+.auth-switch {
+  margin-top: 14px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth-switch a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px;
+  }
+}
