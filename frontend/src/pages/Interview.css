@@ -57,20 +57,158 @@ textarea {
 /* Video */
 .video-container {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin-bottom: 20px;
+}
+
+.video-frame {
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
 }
 
 .video-container video {
   width: 100%;
-  max-width: 850px;
   height: auto;
   border-radius: 14px;
   background: #000;
-  margin-bottom: 12px;
   object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.video-overlay {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+}
+
+.difficulty-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.75);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.control-panel {
+  margin-top: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.question-text {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.control-panel textarea {
+  min-height: 74px;
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+
+.overlay-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.overlay-buttons button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.warning-banner {
+  background: rgba(220, 38, 38, 0.92);
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  animation: pulseWarn 1s infinite;
+}
+
+@keyframes pulseWarn {
+  0% { opacity: 1; }
+  50% { opacity: 0.78; }
+  100% { opacity: 1; }
+}
+
+.recorder-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.recorder-buttons button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #1d4ed8;
+  color: #fff;
+  cursor: pointer;
+}
+
+.voice-indicator {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.voice-meta {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.voice-meter {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.voice-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  transition: width 0.1s linear;
+}
+
+.warning-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: #dc2626;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.2);
+  font-weight: 700;
+  max-width: 360px;
+  animation: popupIn 0.18s ease-out;
+}
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Buttons */
@@ -132,5 +270,9 @@ textarea {
   .video-container video {
     max-width: 100%;
     height: auto;
+  }
+  .difficulty-chip {
+    font-size: 11px;
+    padding: 5px 8px;
   }
 }

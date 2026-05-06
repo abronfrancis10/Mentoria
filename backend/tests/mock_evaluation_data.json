@@ -1,0 +1,46 @@
+[
+  {
+    "role": "Senior Backend Engineer",
+    "difficulty": "hard",
+    "category": "technical",
+    "question": "Explain the CAP theorem and how you would choose between consistency and availability in a global distributed database design.",
+    "answers": [
+      {
+        "type": "strong",
+        "user_answer": "The CAP theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance. In a global design, partitions are inevitable, so we choose between CP or AP. For a banking system, I'd prioritize consistency (CP) using Paxos or Raft. For a social media feed, I'd prioritize availability (AP) using Dynamo-style eventual consistency with CRDTs to resolve conflicts.",
+        "expected_score_range": [8, 10]
+      },
+      {
+        "type": "weak",
+        "user_answer": "CAP theorem is about Consistency, Availability, and Performance. You usually want all three but you can only have two. I would pick consistency because I want the data to be right.",
+        "expected_score_range": [2, 4]
+      }
+    ]
+  },
+  {
+    "role": "Frontend Developer",
+    "difficulty": "medium",
+    "category": "technical",
+    "question": "What is the difference between UseMemo and UseCallback in React, and when should you use each?",
+    "answers": [
+      {
+        "type": "strong",
+        "user_answer": "UseMemo returns a memoized value, while UseCallback returns a memoized function. UseMemo is for expensive calculations to avoid re-computing on every render. UseCallback is for passing stable function references to memoized child components (React.memo) to prevent unnecessary re-renders of those children.",
+        "expected_score_range": [7, 9]
+      }
+    ]
+  },
+  {
+    "role": "Project Manager",
+    "difficulty": "medium",
+    "category": "behavioral",
+    "question": "Tell me about a time you had to deliver bad news to a stakeholder.",
+    "answers": [
+      {
+        "type": "strong",
+        "user_answer": "I had to inform a client that our main release would be delayed by two weeks due to a critical security bug. I used the STAR method: I scheduled a meeting immediately, explained the 'why' clearly, presented a revised timeline with a mitigation plan, and offered a small discount on the next phase. The client appreciated the transparency and the delay didn't affect the long-term relationship.",
+        "expected_score_range": [8, 10]
+      }
+    ]
+  }
+]

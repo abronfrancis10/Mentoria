@@ -37,6 +37,8 @@ export default function RoleSelection({ onNext }) {
     onNext({
       role,
       resumeName: resumeFile.name,
+      resumeFile,
+      totalQuestions: 5,
     });
   }
 

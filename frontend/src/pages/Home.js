@@ -5,7 +5,7 @@ import { auth } from "../firebase"; // Import your Firebase Auth
 import Navbar from "../components/Navbar";
 import "./Home.css";
 
-export default function Home() {
+export default function Home({ onLogin }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,8 +23,17 @@ export default function Home() {
     }
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("Logged in UID:", userCredential.user.uid);
-      navigate("/role"); // Go to role selection after login
+      const loggedInUser = userCredential.user;
+      const userData = {
+        uid: loggedInUser.uid,
+        email: loggedInUser.email || "",
+        name: loggedInUser.displayName || "",
+      };
+      if (typeof onLogin === "function") {
+        onLogin(userData);
+      } else {
+        navigate("/role");
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -34,8 +43,17 @@ export default function Home() {
   const googleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      console.log("Google UID:", result.user.uid);
-      navigate("/role"); // Redirect to role selection
+      const loggedInUser = result.user;
+      const userData = {
+        uid: loggedInUser.uid,
+        email: loggedInUser.email || "",
+        name: loggedInUser.displayName || "",
+      };
+      if (typeof onLogin === "function") {
+        onLogin(userData);
+      } else {
+        navigate("/role");
+      }
     } catch (err) {
       setError(err.message);
     }

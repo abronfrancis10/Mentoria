@@ -1,6 +1,7 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -17,4 +18,5 @@ const app = initializeApp(firebaseConfig);
 
 // Export Auth instance for use in Signup/Login pages
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 export default app;
